@@ -52,7 +52,7 @@ public class FraseControlador {
         return fraseServicio.eliminarFrase(id);
     }
 
-    @PutMapping("/frases/{id}")
+    @PutMapping("/frases/actualizar/{id}")
     @ResponseStatus(HttpStatus.CREATED)
     public Frase actualizarFrase(
             @RequestBody Frase frase,
