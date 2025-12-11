@@ -52,24 +52,17 @@ public class FraseControlador {
         return fraseServicio.eliminarFrase(id);
     }
 
-    @PutMapping("/frases-actualizar/{id}")
-    public ResponseEntity<Frase> actualizarFrase(
+    @PutMapping("/frases/{id}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Frase actualizarFrase(
             @RequestBody Frase frase,
             @PathVariable Long id) {
+        Frase f = fraseServicio.obtenerFrasePorId(id);
+        f.setTextoFrase(frase.getTextoFrase());
+        f.setAutorFrase(frase.getAutorFrase());
+        f.setFechaCreacion(frase.getFechaCreacion());
 
-        try {
-            Frase f = fraseServicio.obtenerFrasePorId(id);
-            f.setTextoFrase(frase.getTextoFrase());
-            f.setAutorFrase(frase.getAutorFrase());
-            f.setFechaCreacion(frase.getFechaCreacion());
-
-            Frase actualizada = fraseServicio.guardarFrase(f);
-            return ResponseEntity.ok(actualizada);  // Devuelve 200 OK
-
-        } catch (Exception e) {
-            // Si no encuentra la frase, devuelve 404
-            return ResponseEntity.notFound().build();
-        }
+        return fraseServicio.guardarFrase(f);
     }
 
     @GetMapping("/frase/reporte/pdf")
